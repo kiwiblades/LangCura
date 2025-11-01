@@ -1,0 +1,23 @@
+venv/
+.venv/
+
+# python/bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# env and local config
+.env
+*.env
+
+#sqlite files
+*.db
+instance/
+
+# tooling
+*.log
+.coverage
+.pytest_cache/
+.mypy_cache/
+.DS_Store

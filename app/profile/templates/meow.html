@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>LINGCURA</title>
 
-  <link rel="stylesheet" href="../../static/css/meowcss.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/meowcss.css') }}">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Zalando+Sans:ital,wght@0,200..900;1,200..900&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap');
@@ -19,7 +19,7 @@
 <body>
   <div class="center-band">
     <header>
-      <img src="/app/assets/logo%20v1.png" alt="Lingcura logo" class="site-logo" />
+      <img src="{{ url_for('static', filename='assets/logo-v1.png') }}" alt="Lingcura logo" class="site-logo" />
     </header>
 
     <p>Hello! Please take a moment to fill out the following:</p>

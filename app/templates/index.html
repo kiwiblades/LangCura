@@ -3,8 +3,7 @@
 {% block content %}
   <section class="hero">
     <h1 class="page-title" style="margin-bottom:.25rem;">Welcome to LINGCURA</h1>
-    <p class="welcome-text">Clear, bilingual patient summaries for faster, safer care.</p>
-
+  <p class="welcome-text"><em>Clear, bilingual patient summaries for faster, safer care.</em></p>
     <div class="cta-row">
       {% if current_user.is_authenticated %}
         <a class="btn" href="{{ url_for('profile.page') }}">Open your profile</a>

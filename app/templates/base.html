@@ -23,6 +23,9 @@
               <option value="es" {{ 'selected' if LANG=='es' else '' }}>Español</option>
             </select>
           </form>
+          <a href="{{ url_for('translate.provider_card', lang=LANG) }}" target="_blank">
+            Provider Card ({{ LANG|upper }})
+            </a>
       
           {% if current_user.is_authenticated %}
             <form method="post" action="{{ url_for('auth.logout') }}" class="inline">

@@ -50,7 +50,7 @@ body {
   margin: 0;
   font-family: "Zalando Sans SemiExpanded", sans-serif;
   color: #3B3B3B;
-  background: linear-gradient(to top, #fff1f6 0%, #fff9fb 40%, #eaf7f9 100%);
+  background: linear-gradient(to top, #ffeaf1 0%, #fff9fb 40%, #e5f9fc 100%);
 }
 
 /* Nav Bar */
@@ -98,10 +98,6 @@ body {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   min-height: calc(100vh - 4rem); /* accounts for top/bottom margin */
 }
-
-
-}
-
 
 /* Form spacing */
 form textarea {

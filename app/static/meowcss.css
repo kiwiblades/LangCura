@@ -1,0 +1,54 @@
+/* Global layout */
+body {pip install libretranslatepy
+  font-family: "Verdana", Geneva, sans-serif;
+  padding: 2rem;
+}
+header {
+  border-bottom: 2px solid #ddd;
+  margin-bottom: 1rem;
+  text-align: center; /* ensure title centers */
+}
+
+/* Site title */
+.site-title {
+  text-align: center;
+  font-size: 3em;
+  font-weight: 700;
+}
+
+/* Form spacing */
+form textarea {
+  display: block;
+  margin-bottom: 1em; /* one line after each textbox */
+}
+
+form button[type="submit"] {
+  display: block;
+  margin-bottom: calc(2 * 1em); /* two lines after submit button */
+}
+
+/* Output area */
+#output {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #eee;
+  background: #fafafa;
+  min-height: 2rem;
+}
+
+/* Patient info output styles */
+.patient-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+}
+.section-title {
+  font-weight: 700;
+  margin: 0.5rem 0 0.25rem 0;
+}
+
+/* Make lists a little more readable */
+#output ul {
+  margin: 0.25rem 0 0.75rem 1.25rem;
+}
+#output li { margin: 0.15rem 0; }

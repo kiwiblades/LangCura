@@ -6,12 +6,11 @@
   <title>Interpresalus</title>
   <link rel="stylesheet" href="../static/meowcss.css">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Zalando+Sans:ital,wght@0,200..900;1,200..900&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap');
 
-    .dm-serif-text-regular {
-      font-family: "DM Serif Text", serif;
-      font-weight: 400;
-      font-style: normal;
+    body {
+      font-family: "Zalando Sans", sans-serif;
     }
   </style>
 </head>
@@ -19,20 +18,19 @@
 <body>
   <div class="center-band">
     <header>
-      <h1 class="site-title dm-serif-text-regular">Interpresalus</h1>
+      <img src="/app/assets/logo%20v1.png" alt="Interpresalus logo" class="site-logo" />
     </header>
 
-    <p>Hello! Please take a moment to fill out the following:</p>
-
+    <h2 class="form-intro">Hello! Please take a moment to fill out the following:</h2>
     <form id="textForm">
-      <label for="userSymptoms">Symptoms</label><br />
-      <textarea id="userSymptoms" name="userSymptoms" rows="4" cols="50" placeholder="Type something here..." aria-label="Symptoms input"></textarea><br />
+      <label for="userSymptoms">Describe your symptoms</label><br />
+      <textarea id="userSymptoms" name="userSymptoms" rows="4" cols="50" placeholder="Describe your symptoms..." aria-label="Symptoms input"></textarea><br />
 
-      <label for="userMedications">Medications</label><br />
-      <textarea id="userMedications" name="userMedications" rows="4" cols="50" placeholder="Type something here..." aria-label="Medications input"></textarea><br />
+      <label for="userMedications">List any medications</label><br />
+      <textarea id="userMedications" name="userMedications" rows="4" cols="50" placeholder="List any medications you're taking..." aria-label="Medications input"></textarea><br />
 
-      <label for="userConditions">Conditions</label><br />
-      <textarea id="userConditions" name="userConditions" rows="4" cols="50" placeholder="Type something here..." aria-label="Conditions input"></textarea><br />
+      <label for="userConditions">Existing medical conditions</label><br />
+      <textarea id="userConditions" name="userConditions" rows="4" cols="50" placeholder="Mention any known conditions..." aria-label="Conditions input"></textarea><br />
 
       <button type="submit">Submit</button>
     </form>

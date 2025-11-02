@@ -43,15 +43,15 @@ def create_app():
     # check the user's language before rendering content
     @app.before_request
     def choose_lang():
+        sess_lang = (session.get("lang") or "").lower()
+        if sess_lang in ("en", "es"):
+            g.lang = sess_lang
+            return
+
         arg_lang = (request.args.get("lang") or "").lower()
         if arg_lang in ("en", "es"):
             session["lang"] = arg_lang
             g.lang = arg_lang
-            return
-
-        sess_lang = (session.get("lang") or "").lower()
-        if sess_lang in ("en", "es"):
-            g.lang = sess_lang
             return
 
         if current_user.is_authenticated:

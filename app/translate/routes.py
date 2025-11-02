@@ -16,9 +16,9 @@ def translate_pf():
         return jsonify({"error": "[Translate] Profile not found"}), 404
 
     src = {
-        "symptoms": prof.symptoms, "medications": prof.medications, "conditions": prof.conditions,
-        "allergies": prof.allergies, "surgeries": prof.surgeries, "vaccines": prof.vaccines,
-        "family_history": prof.family_history,
+        "symptoms": prof.symptoms or "", "medications": prof.medications or "", "conditions": prof.conditions or "",
+        "allergies": prof.allergies or "", "surgeries": prof.surgeries or "", "vaccines": prof.vaccines or "",
+        "family_history": prof.family_history or "",
     }
     translated = translate_profile(src, target)
     return jsonify({"ok": True, "lang": target, "translated": translated})
@@ -26,13 +26,14 @@ def translate_pf():
 @bp.get("/card")
 @login_required
 def provider_card():
-    target = (request.args.get("lang") or getattr(g, "lang", "es")).lower()
+    # Always use the language already resolved into g.lang (from session/user)
+    target = getattr(g, "lang", "en").lower()
     if target not in SUPPORTED:
-        target = "es"
+        target = "en"
 
     prof = Profile.query.filter_by(uid=current_user.id).first()
-    # if not prof:
-        # return render_template("translate/error.html", msg="Profile not found"), 404
+    if not prof:
+        return render_template("translate/error.html", msg="Profile not found"), 404
 
     src = {
         "symptoms": prof.symptoms or "",
@@ -45,10 +46,13 @@ def provider_card():
     }
 
     ok, translated = translate_profile(src, target)
-    # if not ok
 
-    other = "es" if target == "en" else "en"
+    other_lang = "es" if target == "en" else "en"
 
-    # translated is a dict with the same keys
-    return render_template("card.html",
-                           lang=target, other_lang=other, p=translated, user=current_user)
+    return render_template(
+        "card.html",
+        lang=target,           # page’s language
+        other_lang=other_lang, # the opposite option
+        p=translated,
+        user=current_user
+    )

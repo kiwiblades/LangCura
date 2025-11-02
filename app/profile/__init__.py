@@ -1,5 +1,5 @@
 from flask import Blueprint
 
-bp = Blueprint("profile", __name__, url_prefix="/profile")
+bp = Blueprint("profile", __name__, url_prefix="/profile", template_folder="templates")
 
 from . import routes

@@ -1,10 +1,18 @@
 {% extends "base.html" %}
+
 {% block content %}
-  <h1>Home</h1>
+  <h1 class="page-title">Home</h1>
+
   {% if current_user.is_authenticated %}
-    <p>You're signed in as <strong>{{ current_user.email }}</strong>.</p>
-    <p><a href="{{ url_for('profile.page') }}">Go to your profile</a></p>
+    <p class="welcome-text">
+      You're signed in as <strong>{{ current_user.email }}</strong>.
+    </p>
+    <p>
+      <a class="nav-link" href="{{ url_for('profile.page') }}">Go to your profile</a>
+    </p>
   {% else %}
-    <p>Welcome! Please register or sign in.</p>
+    <p class="welcome-text">
+      Welcome! Please register or sign in.
+    </p>
   {% endif %}
 {% endblock %}

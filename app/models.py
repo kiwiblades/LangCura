@@ -11,6 +11,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True) # sqlalchemy automatically autoincrements keys
     email = db.Column(db.String(255), unique=True, nullable=False, index=True)
     password_hash = db.Column(db.String(255), nullable=False)
+    preferred_language = db.Column(db.String(8), nullable=False, default="en") # en or es
 
     # logging data
     created_at = db.Column(

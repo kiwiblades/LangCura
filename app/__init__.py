@@ -1,6 +1,6 @@
 import os
-from flask import Flask
-from flask_login import LoginManager
+from flask import Flask, g, request, redirect, url_for, session
+from flask_login import LoginManager, current_user, login_required
 from .config import Config
 from .db import db, init_db
 
@@ -35,9 +35,34 @@ def create_app():
     app.register_blueprint(auth_bp)
     app.register_blueprint(profile_bp)
 
-    print(app.url_map)
-
     with app.app_context():
         init_db()
+
+    # check the user's language before rendering content
+    @app.before_request
+    def set_lang():
+        if current_user.is_authenticated:
+            g.lang = (current_user.preferred_language or "en").lower()
+        else:
+            g.lang = (request.args.get("lang") or "en").lower()
+
+    # import language services
+    from .services.i18n import t as _t
+    @app.context_processor
+    def inject_i18n():
+        from flask import g
+        lang = getattr(g, "lang", "en")
+        return {"t": lambda key: _t(key,lang), "LANG": lang}
+
+    @app.post("/lang")
+    @login_required
+    def set_lang():
+        lang = (request.form.get("lang") or "en").lower()
+        if lang not in ("en","es"):
+            lang = "en"
+        session["lang"] = lang # change takes place immediately in session
+        current_user.preferred_language = lang # persist to db
+        db.session.commit()
+        return redirect(request.referrer or url_for("main.index"))
 
     return app

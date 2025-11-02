@@ -6,16 +6,33 @@
     <style>body{font-family:sans-serif;max-width:760px;margin:2rem auto}</style>
 </head>
 <body>
-    <nav>
-        <a href="{{ url_for('main.index') }}">Home</a>
-        {% if current_user.is_authenticated %}
-            <form style="display:inline" method="post" action="{{ url_for('auth.logout') }}">
-                <button>Logout</button>
+    <nav class="nav">
+        <div class="left">
+          <a class="brand" href="{{ url_for('main.index') }}">Lingcura</a>
+      
+          {% if current_user.is_authenticated %}
+            <a class="{{ 'active' if request.blueprint=='profile' else '' }}"
+               href="{{ url_for('profile.page') }}">Profile</a>
+          {% endif %}
+        </div>
+      
+        <div class="right">
+          <form method="post" action="{{ url_for('set_lang') }}" class="lang-form">
+            <select name="lang" onchange="this.form.submit()">
+              <option value="en" {{ 'selected' if LANG=='en' else '' }}>English</option>
+              <option value="es" {{ 'selected' if LANG=='es' else '' }}>Español</option>
+            </select>
+          </form>
+      
+          {% if current_user.is_authenticated %}
+            <form method="post" action="{{ url_for('auth.logout') }}" class="inline">
+              <button>Logout</button>
             </form>
-        {% else %}
+          {% else %}
             <a href="{{ url_for('auth.login_form') }}">Login</a>
             <a href="{{ url_for('auth.register_form') }}">Register</a>
-        {% endif %}
+          {% endif %}
+        </div>
     </nav>
     {% with msgs = get_flashed_messages(with_categories=true) %}
         {% if msgs %}

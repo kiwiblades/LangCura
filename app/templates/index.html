@@ -1,10 +1,47 @@
 {% extends "base.html" %}
+
 {% block content %}
-  <h1>Home</h1>
+  <section class="hero">
+    <h1 class="page-title" style="margin-bottom:.25rem;">{{ t('home_title', LANG) }}</h1>
+
+    {% if current_user.is_authenticated %}
+      <p class="welcome-text">
+        {{ t('home_signed_in_as', LANG) }} <strong>{{ current_user.email }}</strong>.
+      </p>
+      <div class="cta-row">
+        <a class="btn" href="{{ url_for('profile.page') }}">{{ t('nav_profile', LANG) }}</a>
+        <a class="btn btn--muted" href="{{ url_for('translate.provider_card', lang=LANG) }}">
+          {{ t('provider_card_lang', LANG) | replace('{lang}', LANG|upper) }}
+        </a>
+      </div>
+    {% else %}
+      <p class="welcome-text">{{ t('home_welcome', LANG) }}</p>
+      <div class="cta-row">
+        <a class="btn" href="{{ url_for('auth.register_form') }}">{{ t('nav_register', LANG) }}</a>
+        <a class="btn btn--muted" href="{{ url_for('auth.login_form') }}">{{ t('nav_login', LANG) }}</a>
+      </div>
+    {% endif %}
+  </section>
+
   {% if current_user.is_authenticated %}
-    <p>You're signed in as <strong>{{ current_user.email }}</strong>.</p>
-    <p><a href="{{ url_for('profile.page') }}">Go to your profile</a></p>
-  {% else %}
-    <p>Welcome! Please register or sign in.</p>
+  <section class="tile-grid">
+    <article class="tile">
+      <h3>{{ t('card_profile_title', LANG) }}</h3>
+      <p>{{ t('card_profile_body', LANG) }}</p>
+      <a class="nav-link" href="{{ url_for('profile.page') }}">{{ t('card_profile_link', LANG) }} →</a>
+    </article>
+
+    <article class="tile">
+      <h3>{{ t('card_card_title', LANG) }}</h3>
+      <p>{{ t('card_card_body', LANG) | replace('{LANG}', LANG|upper) }}</p>
+      <a class="nav-link" href="{{ url_for('translate.provider_card', lang=LANG) }}">{{ t('card_card_link', LANG) }} →</a>
+    </article>
+
+    <article class="tile">
+      <h3>{{ t('card_lang_title', LANG) }}</h3>
+      <p>{{ t('card_lang_body', LANG) }}</p>
+      <a class="nav-link" href="#lang">{{ t('card_lang_link', LANG) }} ↑</a>
+    </article>
+  </section>
   {% endif %}
 {% endblock %}

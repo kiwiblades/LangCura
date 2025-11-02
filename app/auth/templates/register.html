@@ -1,11 +1,33 @@
 {% extends "base.html" %}
+
 {% block content %}
-    <h1>Register</h1>
-    <form method="post" action="{{ url_for('auth.register_submit') }}">
-        <input name="email" type="email" placeholder="Email" required>
-        <br>
-        <input name="password" type="password" placeholder="Password" required>
-        <br>
-        <button>Create account</button>
+  <div class="form-card">
+    <h2 class="form-title">{{ t('register_title', LANG) }}</h2>
+
+    {# show any flashed errors from the backend #}
+    {% with msgs = get_flashed_messages(category_filter=['error']) %}
+      {% if msgs %}
+        <ul class="flash-messages">
+          {% for msg in msgs %}
+            <li><strong>{{ t('flash_error', LANG) or 'Error' }}:</strong> {{ msg }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="post" action="{{ url_for('auth.register_submit') }}" novalidate>
+      <div class="form-row">
+        <label class="form-label" for="email">{{ t('login_email', LANG) }}</label>
+        <input class="input" id="email" name="email" type="email" placeholder="{{ t('email_placeholder', LANG) }}" required>
+      </div>
+
+      <div class="form-row">
+        <label class="form-label" for="password">{{ t('login_password', LANG) }}</label>
+        <input class="input" id="password" name="password" type="password" minlength="8" required>
+      </div>
+
+      <button class="btn" type="submit">{{ t('register_submit', LANG) }}</button>
     </form>
+
+  </div>
 {% endblock %}

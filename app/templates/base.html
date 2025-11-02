@@ -1,29 +1,73 @@
 <!doctype html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>{{ title or "Flask App" }}</title>
-    <style>body{font-family:sans-serif;max-width:760px;margin:2rem auto}</style>
+<html lang="{{ LANG or 'en' }}">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LANGCURA</title>
+  
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/meowcss.css') }}">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Zalando+Sans:ital,wght@0,200..900;1,200..900&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap');
+  
+      body {
+        font-family: "Zalando Sans", sans-serif;
+      }
+    </style>
 </head>
 <body>
-    <nav>
-        <a href="{{ url_for('main.index') }}">Home</a>
+  <div class="center-band">
+    <header>
+      <img src="{{ url_for('static', filename='assets/logo-v1.png') }}" alt="LANGCURA logo" class="site-logo" />
+    </header>
+
+    <nav class="main-nav">
+      <ul>
+        <li>
+          <a class="{{ 'active' if request.endpoint == 'main.index' else '' }}"
+             href="{{ url_for('main.index') }}">{{ t('nav_home', LANG) }}</a>
+        </li>
+
         {% if current_user.is_authenticated %}
-            <form style="display:inline" method="post" action="{{ url_for('auth.logout') }}">
-                <button>Logout</button>
-            </form>
+          <li>
+            <a class="{{ 'active' if request.blueprint == 'profile' else '' }}"
+               href="{{ url_for('profile.page') }}">{{ t('nav_profile', LANG) }}</a>
+          </li>
+        {% endif %}
+
+        <li>
+          <a href="{{ url_for('translate.provider_card', lang=LANG) }}">{{ t('nav_translate', LANG) }}</a>
+        </li>
+
+        {% if current_user.is_authenticated %}
+          <li><a href="{{ url_for('auth.logout') }}">{{ t('nav_signout', LANG) }}</a></li>
         {% else %}
-            <a href="{{ url_for('auth.login_form') }}">Login</a>
-            <a href="{{ url_for('auth.register_form') }}">Register</a>
+          <li><a href="{{ url_for('auth.login_form') }}">{{ t('nav_login', LANG) }}</a></li>
+          <li><a href="{{ url_for('auth.register_form') }}">{{ t('nav_register', LANG) }}</a></li>
         {% endif %}
+      </ul>
     </nav>
+
+    <!-- Language Selector -->
+    <form method="post" action="{{ url_for('set_lang') }}" class="lang-form">
+      <label for="lang">{{ t('language', LANG) }}:</label>
+      <select name="lang" id="lang" onchange="this.form.submit()">
+        <option value="en" {{ 'selected' if LANG == 'en' else '' }}>English</option>
+        <option value="es" {{ 'selected' if LANG == 'es' else '' }}>Español</option>
+      </select>
+    </form>
+
     {% with msgs = get_flashed_messages(with_categories=true) %}
-        {% if msgs %}
-            <ul>
-                {% for cat,msg in msgs %}<li><strong>{{cat}}:</strong> {{msg}}</li>{% endfor %}
-            </ul>
-        {% endif %}
+      {% if msgs %}
+        <ul class="flash-messages">
+          {% for cat, msg in msgs %}
+            <li><strong>{{ cat }}:</strong> {{ msg }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
     {% endwith %}
+
     {% block content %}{% endblock %}
+  </div>
 </body>
 </html>

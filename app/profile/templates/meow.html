@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LINGCURA</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/meowcss.css') }}">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Zalando+Sans:ital,wght@0,200..900;1,200..900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap');
+
+    body {
+      font-family: "Zalando Sans", sans-serif;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="center-band">
+    <header>
+      <img src="{{ url_for('static', filename='assets/logo-v1.png') }}" alt="Lingcura logo" class="site-logo" />
+    </header>
+
+    <p>Hello! Please take a moment to fill out the following:</p>
+
+    <button id="editBtn" type="button">Edit</button>
+
+    <form id="textForm" hidden>
+      <label for="userSymptoms">Symptoms</label><br />
+      <textarea id="userSymptoms" name="userSymptoms" rows="4" cols="50" placeholder="Type something here..." aria-label="Symptoms input"></textarea><br />
+
+      <label for="userMedications">Medications</label><br />
+      <textarea id="userMedications" name="userMedications" rows="4" cols="50" placeholder="Type something here..." aria-label="Medications input"></textarea><br />
+
+      <label for="userConditions">Conditions</label><br />
+      <textarea id="userConditions" name="userConditions" rows="4" cols="50" placeholder="Type something here..." aria-label="Conditions input"></textarea><br />
+
+      <label for="userAllergies">Allergies</label><br />
+      <textarea id="userAllergies" name="userAllergies" rows="4" cols="50" placeholder="Type something here..." aria-label="Allergies input"></textarea><br />
+
+      <label for="userSurgeries">Surgeries</label><br />
+      <textarea id="userSurgeries" name="userSurgeries" rows="4" cols="50" placeholder="Type something here..." aria-label="Surgeries input"></textarea><br />
+
+      <label for="userVaccines">Vaccinations</label><br />
+      <textarea id="userVaccines" name="userVaccines" rows="4" cols="50" placeholder="Type something here..." aria-label="Vaccines input"></textarea><br />
+
+      <label for="userFHistory">Family Medical History</label><br />
+      <textarea id="userFHistory" name="userFHistory" rows="4" cols="50" placeholder="Type something here..." aria-label="userFHistory input"></textarea><br />
+
+      <button type="submit">Submit</button>
+      <button id="cancelBtn" type="button">Cancel</button>
+    </form>
+
+    <div id="output" aria-live="polite"></div>
+  </div>
+
+  <script>
+    let lastProfile = null; // keeps the last loaded/saved JSON state
+    const form = document.getElementById('textForm');
+    const output = document.getElementById('output');
+    const editBtn = document.getElementById('editBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+
+    function show(el){ el.hidden = false; }
+    function hide(el){ el.hidden = true; }
+
+
+    function clearChildren(el) {
+      while (el.firstChild) {
+        el.removeChild(el.firstChild);
+      }
+    }
+
+    function createListFromText(text) {
+      const lines = String(text).split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+      const ul = document.createElement('ul');
+
+      if (lines.length === 0) {
+        const li = document.createElement('li');
+        li.textContent = '(none)';
+        ul.appendChild(li);
+        return ul;
+      }
+
+      for (const line of lines) {
+        const li = document.createElement('li');
+        li.textContent = line;
+        ul.appendChild(li);
+      }
+
+      return ul;
+    }
+
+    function renderPatientInfo({ symptoms='',medications='',conditions='',allergies='',
+      surgeries='',vaccines='',family_history=''
+    }={}) {
+      clearChildren(output);
+
+      const title = document.createElement('h2');
+      title.textContent = 'Patient Info';
+      title.className = 'patient-title';
+      output.appendChild(title);
+
+      const sTitle = document.createElement('h3');
+      sTitle.textContent = 'Symptoms';
+      sTitle.className = 'section-title';
+      output.appendChild(sTitle);
+      output.appendChild(createListFromText(symptoms));
+
+      const mTitle = document.createElement('h3');
+      mTitle.textContent = 'Medications';
+      mTitle.className = 'section-title';
+      output.appendChild(mTitle);
+      output.appendChild(createListFromText(medications));
+
+      const cTitle = document.createElement('h3');
+      cTitle.textContent = 'Conditions';
+      cTitle.className = 'section-title';
+      output.appendChild(cTitle);
+      output.appendChild(createListFromText(conditions));
+
+      const aTitle = document.createElement('h3');
+      aTitle.textContent = 'Allergies';
+      aTitle.className = 'section-title';
+      output.appendChild(aTitle);
+      output.appendChild(createListFromText(allergies));
+
+      const sgTitle = document.createElement('h3');
+      sgTitle.textContent = 'Surgeries';
+      sgTitle.className = 'section-title';
+      output.appendChild(sgTitle);
+      output.appendChild(createListFromText(surgeries));
+
+      const vTitle = document.createElement('h3');
+      vTitle.textContent = 'Vaccinations';
+      vTitle.className = 'section-title';
+      output.appendChild(vTitle);
+      output.appendChild(createListFromText(vaccines));
+
+      const fTitle = document.createElement('h3');
+      fTitle.textContent = 'Family Medical History';
+      fTitle.className = 'section-title';
+      output.appendChild(fTitle);
+      output.appendChild(createListFromText(family_history));
+
+      output.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    async function loadProfile() {
+      try {
+        const res = await fetch('/profile/data', { credentials: 'same-origin' });
+        if (!res.ok) return; // if not logged in or no profile, simply ignore
+        const data = await res.json();
+
+        // prefill form fields
+        document.getElementById('userSymptoms').value   = data.symptoms || '';
+        document.getElementById('userMedications').value = data.medications || '';
+        document.getElementById('userConditions').value  = data.conditions || '';
+        document.getElementById('userAllergies').value  = data.allergies || '';
+        document.getElementById('userSurgeries').value  = data.surgeries || '';
+        document.getElementById('userVaccines').value  = data.vaccines || '';
+        document.getElementById('userFHistory').value  = data.family_history || '';
+
+        // render read-only view first
+        renderPatientInfo(data);
+
+        // show the read-only view by default
+        hide(form);
+      } catch(e) {/* ignore on load */ }
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const payload = {
+        symptoms: document.getElementById('userSymptoms').value,
+        medications: document.getElementById('userMedications').value,
+        conditions: document.getElementById('userConditions').value,
+        allergies: document.getElementById('userAllergies').value,
+        surgeries: document.getElementById('userSurgeries').value,
+        vaccines: document.getElementById('userVaccines').value,
+        family_history: document.getElementById('userFHistory').value,
+      }
+
+      // save to api
+      try {
+        const res = await fetch('/profile/', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin', // send session cookie for @login_required
+          body: JSON.stringify(payload)
+        });
+
+        const json = await res.json().catch(() => null);
+
+        if (!res.ok || !json || (!json.ok && !json.message)) {
+          const p = document.createElement('p');
+          p.style.color = 'crimson';
+          p.textContent = (json && json.error) ? json.error : 'Save failed (are you signed in?)';
+          output.appendChild(p);
+          return;
+        }
+
+        const newState = (json.profile) ? json.profile : payload;
+        lastProfile= newState; // remember current info
+        renderPatientInfo(newState); // re-render read-only values with saved new vals
+        hide(form);
+        show(output);
+        const p = document.createElement('p');
+        p.style.color = 'green';
+        p.textContent = 'Saved.';
+        output.appendChild(p);
+
+      } catch (err) {
+        const p = document.createElement('p');
+        p.style.color = 'crimson';
+        p.textContent = 'Network error while saving.';
+        output.appendChild(p);
+        console.error(err);
+    }
+  });
+
+    // toggle for form
+  editBtn?.addEventListener('click', () => {
+    hide(output);     // HIDE read-only section
+    show(form);       // SHOW form
+    form.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  cancelBtn?.addEventListener('click', () => {
+    // reset fields back to lastProfile values
+    if (lastProfile) {
+      document.getElementById('userSymptoms').value    = lastProfile.symptoms || '';
+      document.getElementById('userMedications').value = lastProfile.medications || '';
+      document.getElementById('userConditions').value  = lastProfile.conditions || '';
+      document.getElementById('userAllergies').value   = lastProfile.allergies || '';
+      document.getElementById('userSurgeries').value   = lastProfile.surgeries || '';
+      document.getElementById('userVaccines').value    = lastProfile.vaccines || '';
+      document.getElementById('userFHistory').value    = lastProfile.family_history || '';
+    }
+    hide(form);       // HIDE form
+    show(output);     // SHOW read-only section
+  });
+
+  // show current saved profile on first load (?)
+  document.addEventListener('DOMContentLoaded', loadProfile);
+  </script>
+</body>
+</html>

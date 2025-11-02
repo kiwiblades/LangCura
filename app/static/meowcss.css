@@ -12,10 +12,11 @@
 /* Global layout */
 body {
   margin: 0;
-  background-color: #DCEEF2; /* Soft sky blue */
   font-family: "Zalando Sans SemiExpanded", sans-serif;
-  color: #3B3B3B; /* Soft charcoal for text */
+  color: #3B3B3B;
+  background: linear-gradient(to top, #0077b6, #90e0ef);
 }
+
 
 /* Center band container */
 .center-band {

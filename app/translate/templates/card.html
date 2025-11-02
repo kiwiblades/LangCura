@@ -5,20 +5,59 @@
   <title>Lingcura — Provider Card ({{ lang|upper }})</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/meowcss.css') }}">
   <style>
-    body { font-family: system-ui, Arial, sans-serif; max-width: 840px; margin: 2rem auto; }
-    header { display:flex; justify-content:space-between; align-items:center; gap:1rem; }
-    h1 { margin:.25rem 0; }
-    .meta { color:#666; margin-bottom:1rem; }
+    body {
+      font-family: system-ui, Arial, sans-serif;
+      background: linear-gradient(to top, #fff1f6 0%, #fff9fb 40%, #eaf7f9 100%);
+      margin: 0;
+    }
+
+    .center-band {
+      background-color: #ffddf0;
+      max-width: 800px;
+      width: 100%;
+      margin: 2rem auto;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      min-height: calc(100vh - 4rem);
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    h1 { margin: .25rem 0; }
+    .meta { color: #666; margin-bottom: 1rem; }
     section { margin: .85rem 0; }
     h2 { font-size: 1.05rem; margin: .5rem 0; }
-    pre { white-space: pre-wrap; background:#fafafa; padding:.6rem; border:1px solid #eee; border-radius:8px; }
-    .no-print { margin-bottom:1rem; }
-    .btn { padding:.35rem .6rem; border:1px solid #ddd; border-radius:6px; text-decoration:none; color:#333; }
-    @media print { .no-print { display:none; } body { margin:0; } }
+    pre {
+      white-space: pre-wrap;
+      background: #fafafa;
+      padding: .6rem;
+      border: 1px solid #eee;
+      border-radius: 8px;
+    }
+
+    .no-print { margin-bottom: 1rem; }
+    .btn {
+      padding: .35rem .6rem;
+      border: 1px solid #68ff04;
+      border-radius: 16px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    @media print {
+      .no-print { display: none; }
+      body { margin: 0; }
+    }
   </style>
 </head>
 <body>
-    {# localized labels for headings #}
+  <div class="center-band">
     {% set labels = {
       'en': {
         'title': 'Patient Summary', 'language':'Language', 'user':'User',
@@ -37,32 +76,33 @@
     {% set switch_label = L['switch_en'] if other_lang=='en' else L['switch_es'] %}
 
     <div class="no-print">
-        <a class="btn" href="{{ url_for('main.index') }}">&larr; {{ L['back'] }}</a>
-        <a class="btn" href="{{ url_for('translate.provider_card', lang=other_lang) }}">{{ switch_label }}</a>
-        <button class="btn" onclick="window.print()">{{ L['print'] }}</button>
-      </div>
-    
-      <header>
-        <h1>{{ L['title'] }}</h1>
-        <div><strong>{{ L['language'] }}:</strong> {{ lang|upper }}</div>
-      </header>
-    
-      <div class="meta">
-        {% if user %}<div><strong>{{ L['user'] }}:</strong> {{ user.email }}</div>{% endif %}
-      </div>
-    
-      {% for label, key in [
-          (L['Symptoms'],'symptoms'),
-          (L['Medications'],'medications'),
-          (L['Conditions'],'conditions'),
-          (L['Allergies'],'allergies'),
-          (L['Surgeries'],'surgeries'),
-          (L['Vaccinations'],'vaccines'),
-          (L['Family History'],'family_history')] %}
-        <section>
-          <h2>{{ label }}</h2>
-          <pre>{{ p.get(key) or '(none)' }}</pre>
-        </section>
-      {% endfor %}
-    </body>
-    </html>
+      <a class="btn" href="{{ url_for('main.index') }}">&larr; {{ L['back'] }}</a>
+      <a class="btn" href="{{ url_for('translate.provider_card', lang=other_lang) }}">{{ L['translate'] }}</a>
+      <button class="btn" onclick="window.print()">{{ L['print'] }}</button>
+    </div>
+
+    <header>
+      <h1>{{ L['title'] }}</h1>
+      <div><strong>{{ L['language'] }}:</strong> {{ lang|upper }}</div>
+    </header>
+
+    <div class="meta">
+      {% if user %}<div><strong>{{ L['user'] }}:</strong> {{ user.email }}</div>{% endif %}
+    </div>
+
+    {% for label, key in [
+        (L['Symptoms'],'symptoms'),
+        (L['Medications'],'medications'),
+        (L['Conditions'],'conditions'),
+        (L['Allergies'],'allergies'),
+        (L['Surgeries'],'surgeries'),
+        (L['Vaccinations'],'vaccines'),
+        (L['Family History'],'family_history')] %}
+      <section>
+        <h2>{{ label }}</h2>
+        <pre>{{ p.get(key) or '(none)' }}</pre>
+      </section>
+    {% endfor %}
+  </div>
+</body>
+</html>

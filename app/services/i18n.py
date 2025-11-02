@@ -12,13 +12,13 @@ STRINGS = {
         "conditions": "Conditions",
         "conditions_edit": "Pre-existing medical conditions",
         "allergies": "Allergies",
-        #TODO: allergies_edit
-        "surgeries": "Surgeries",
-        #TODO: surgeries_edit
+        "allergies_edit": "Edit Allergies",
+        "surgeries": "Edit Surgeries",
+        "surgeries_edit": "Surgeries",
         "vaccines": "Vaccinations",
-        #TODO: vaccines_edit
+        "vaccines_edit": "Edit Vaccinations",
         "family_history": "Family Medical History",
-        #TODO: family_edit
+        "family_edit": "Edit Family Medical History",
     },
     "es": {
         "site_title": "Lingcura",
@@ -33,13 +33,13 @@ STRINGS = {
         "conditions": "Condiciones",
         "conditions_edit": "Afecciones médicas preexistentes",
         "allergies": "Alergias",
-        #TODO: allergies_edit
+        "allergies_edit": "editar alergies",
         "surgeries": "Cirugías",
-        #TODO: surgeries_edit
+        "surgeries_edit": "editar cirugias",
         "vaccines": "Vacunas",
-        #TODO: vaccines_edit
-        "family_history": "Antecedentes familiares",
-        #TODO: family_edit
+        "vaccines_edit": "editar vacunas",
+        "family_history": "historia familiar",
+        
     },
 }
 

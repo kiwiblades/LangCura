@@ -1,39 +1,88 @@
-/* Global layout */
-body {pip install libretranslatepy
-  font-family: "Verdana", Geneva, sans-serif;
-  padding: 2rem;
+/* Import DM Serif Text from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap');
+
+/* Utility class for Zalando Sans */
+.zalando-sans-semiexpanded {
+  font-family: "Zalando Sans SemiExpanded", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
 }
+
+/* Global layout */
+body {
+  margin: 0;
+  background-color: #DCEEF2; /* Soft sky blue */
+  font-family: "Zalando Sans SemiExpanded", sans-serif;
+  color: #3B3B3B; /* Soft charcoal for text */
+}
+
+/* Center band container */
+.center-band {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #FDF6E3; /* Warm cream */
+  background-image:
+    linear-gradient(to right, rgba(120, 120, 120, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(120, 120, 120, 0.06) 1px, transparent 1px);
+  background-size: 20px 20px;
+  padding: 2rem;
+  min-height: 100vh;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+
+/* Header */
 header {
-  border-bottom: 2px solid #ddd;
+  border-bottom: 2px solid #D8D8D8;
   margin-bottom: 1rem;
-  text-align: center; /* ensure title centers */
 }
 
 /* Site title */
 .site-title {
-  text-align: center;
+  text-align: left;
   font-size: 3em;
   font-weight: 700;
+  color: #6A1B1A; /* Refined oxblood */
+  font-family: "DM Serif Text", serif;
 }
 
 /* Form spacing */
 form textarea {
   display: block;
-  margin-bottom: 1em; /* one line after each textbox */
+  margin-bottom: 1em;
+  background-color: #F9F9F6;
+  border: 1px solid #CCC;
+  border-radius: 6px;
+  padding: 0.5em;
+  font-family: inherit;
+  color: #333;
 }
 
 form button[type="submit"] {
   display: block;
-  margin-bottom: calc(2 * 1em); /* two lines after submit button */
+  margin-bottom: 2em;
+  background-color: #6A1B1A;
+  color: #fff;
+  border: none;
+  padding: 0.6em 1.2em;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+form button[type="submit"]:hover {
+  background-color: #8B2C2A;
 }
 
 /* Output area */
 #output {
   margin-top: 1rem;
-  padding: 0.5rem;
-  border: 1px solid #eee;
-  background: #fafafa;
+  padding: 0.75rem;
+  border: 1px solid #D8D8D8;
+  background: #F5F5F0;
   min-height: 2rem;
+  border-radius: 16px;
 }
 
 /* Patient info output styles */
@@ -42,6 +91,7 @@ form button[type="submit"] {
   font-weight: 700;
   margin: 0 0 0.5rem 0;
 }
+
 .section-title {
   font-weight: 700;
   margin: 0.5rem 0 0.25rem 0;
@@ -51,4 +101,7 @@ form button[type="submit"] {
 #output ul {
   margin: 0.25rem 0 0.75rem 1.25rem;
 }
-#output li { margin: 0.15rem 0; }
+
+#output li {
+  margin: 0.15rem 0;
+}

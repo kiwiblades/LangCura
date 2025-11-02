@@ -1,11 +1,45 @@
 {% extends "base.html" %}
+
 {% block content %}
-    <h1>Register</h1>
-    <form method="post" action="{{ url_for('auth.register_submit') }}">
-        <input name="email" type="email" placeholder="Email" required>
-        <br>
-        <input name="password" type="password" placeholder="Password" required>
-        <br>
-        <button>Create account</button>
+  <div class="form-card">
+    <h2 class="form-title">Create your account</h2>
+
+    {# show any flashed errors from the backend #}
+    {% with msgs = get_flashed_messages(category_filter=['error']) %}
+      {% if msgs %}
+        <ul class="flash-messages">
+          {% for msg in msgs %}
+            <li><strong>Error:</strong> {{ msg }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="post" action="{{ url_for('auth.register_submit') }}" novalidate>
+      <div class="form-row">
+        <label class="form-label" for="email">Email</label>
+        <input class="input" id="email" name="email" type="email" placeholder="you@example.com" required>
+      </div>
+
+      <div class="form-row">
+        <label class="form-label" for="password">Password</label>
+        <input class="input" id="password" name="password" type="password" placeholder="••••••••" minlength="8" required>
+      </div>
+
+      {# optional confirm field—uncomment if your route validates it #}
+      {#
+      <div class="form-row">
+        <label class="form-label" for="password2">Confirm password</label>
+        <input class="input" id="password2" name="password2" type="password" placeholder="Repeat password" required>
+      </div>
+      #}
+
+      <button class="btn" type="submit">Create account</button>
     </form>
+
+    <p class="auth-help" style="margin-top:.75rem;">
+      Already have an account?
+      <a href="{{ url_for('auth.login_form') }}" class="nav-link">Sign in</a>
+    </p>
+  </div>
 {% endblock %}

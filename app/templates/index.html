@@ -1,18 +1,40 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1 class="page-title">Home</h1>
+  <section class="hero">
+    <h1 class="page-title" style="margin-bottom:.25rem;">Welcome to LINGCURA</h1>
+    <p class="welcome-text">Clear, bilingual patient summaries for faster, safer care.</p>
+
+    <div class="cta-row">
+      {% if current_user.is_authenticated %}
+        <a class="btn" href="{{ url_for('profile.page') }}">Open your profile</a>
+        <a class="btn btn--muted" href="{{ url_for('translate.provider_card', lang=LANG) }}">View provider card ({{ LANG|upper }})</a>
+      {% else %}
+        <a class="btn" href="{{ url_for('auth.register_form') }}">Create account</a>
+        <a class="btn btn--muted" href="{{ url_for('auth.login_form') }}">Sign in</a>
+      {% endif %}
+    </div>
+  </section>
 
   {% if current_user.is_authenticated %}
-    <p class="welcome-text">
-      You're signed in as <strong>{{ current_user.email }}</strong>.
-    </p>
-    <p>
-      <a class="nav-link" href="{{ url_for('profile.page') }}">Go to your profile</a>
-    </p>
-  {% else %}
-    <p class="welcome-text">
-      Welcome! Please register or sign in.
-    </p>
+  <section class="tile-grid">
+    <article class="tile">
+      <h3>Profile</h3>
+      <p>Keep symptoms, meds, and history up-to-date. Edit in your language; we'll handle the rest.</p>
+      <a class="nav-link" href="{{ url_for('profile.page') }}">Go to Profile →</a>
+    </article>
+
+    <article class="tile">
+      <h3>Provider Card</h3>
+      <p>Generate a clean, printable summary for clinicians in {{ LANG|upper }} (switch languages on the top bar).</p>
+      <a class="nav-link" href="{{ url_for('translate.provider_card', lang=LANG) }}">Open Card →</a>
+    </article>
+
+    <article class="tile">
+      <h3>Language</h3>
+      <p>Prefer English or Español? Use the selector above—your choice is saved for next time.</p>
+      <a class="nav-link" href="#lang">Change language ↑</a>
+    </article>
+  </section>
   {% endif %}
 {% endblock %}

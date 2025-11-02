@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Lingcura — Provider Card ({{ lang|upper }})</title>
+  <title>Langcura — Provider Card ({{ lang|upper }})</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/meowcss.css') }}">
   <style>
     body {
@@ -58,49 +58,35 @@
 </head>
 <body>
   <div class="center-band">
-    {% set labels = {
-      'en': {
-        'title': 'Patient Summary', 'language':'Language', 'user':'User',
-        'Symptoms':'Symptoms','Medications':'Medications','Conditions':'Conditions',
-        'Allergies':'Allergies','Surgeries':'Surgeries','Vaccinations':'Vaccinations',
-        'Family History':'Family History'
-      },
-      'es': {
-        'title': 'Resumen del Paciente', 'language':'Idioma', 'user':'Usuario',
-        'Symptoms':'Síntomas','Medications':'Medicamentos','Conditions':'Condiciones',
-        'Allergies':'Alergias','Surgeries':'Cirugías','Vaccinations':'Vacunas',
-        'Family History':'Antecedentes Familiares'
-      }
-    } %}
-    {% set L = labels.get(lang, labels['es']) %}
-    {% set switch_label = L['switch_en'] if other_lang=='en' else L['switch_es'] %}
+    {# choose the opposite-language switch label using your translator #}
+    {% set switch_label = t('switch_to_en', LANG) if other_lang == 'en' else t('switch_to_es', LANG) %}
 
     <div class="no-print">
-      <a class="btn" href="{{ url_for('main.index') }}">&larr; {{ L['back'] }}</a>
-      <a class="btn" href="{{ url_for('translate.provider_card', lang=other_lang) }}">{{ L['translate'] }}</a>
-      <button class="btn" onclick="window.print()">{{ L['print'] }}</button>
+      <a class="btn" href="{{ url_for('main.index') }}">&larr; {{ t('back', LANG) }}</a>
+      <a class="btn" href="{{ url_for('translate.provider_card', lang=other_lang) }}">{{ switch_label }}</a>
+      <button class="btn" onclick="window.print()">{{ t('print', LANG) }}</button>
     </div>
 
     <header>
-      <h1>{{ L['title'] }}</h1>
-      <div><strong>{{ L['language'] }}:</strong> {{ lang|upper }}</div>
+      <h1>{{ t('card_title', LANG) }}</h1>
+      <div><strong>{{ t('language', LANG) }}:</strong> {{ lang|upper }}</div>
     </header>
 
     <div class="meta">
-      {% if user %}<div><strong>{{ L['user'] }}:</strong> {{ user.email }}</div>{% endif %}
+      {% if user %}<div><strong>{{ t('card_user', LANG) }}:</strong> {{ user.email }}</div>{% endif %}
     </div>
 
     {% for label, key in [
-        (L['Symptoms'],'symptoms'),
-        (L['Medications'],'medications'),
-        (L['Conditions'],'conditions'),
-        (L['Allergies'],'allergies'),
-        (L['Surgeries'],'surgeries'),
-        (L['Vaccinations'],'vaccines'),
-        (L['Family History'],'family_history')] %}
+        (t('symptoms', LANG),'symptoms'),
+        (t('medications', LANG),'medications'),
+        (t('conditions', LANG),'conditions'),
+        (t('allergies', LANG),'allergies'),
+        (t('surgeries', LANG),'surgeries'),
+        (t('vaccines', LANG),'vaccines'),
+        (t('family_history', LANG),'family_history')] %}
       <section>
         <h2>{{ label }}</h2>
-        <pre>{{ p.get(key) or '(none)' }}</pre>
+        <pre>{{ p.get(key) or t('none', LANG) }}</pre>
       </section>
     {% endfor %}
   </div>

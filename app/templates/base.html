@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{ LANG or 'en' }}">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -18,30 +18,39 @@
 <body>
   <div class="center-band">
     <header>
-      <img src="{{ url_for('static', filename='assets/logo-v1.png') }}" alt="Lingcura logo" class="site-logo" />
+      <img src="{{ url_for('static', filename='assets/logo-v1.png') }}" alt="LANGCURA logo" class="site-logo" />
     </header>
 
     <nav class="main-nav">
       <ul>
-        <li><a class="{{ 'active' if request.endpoint == 'main.index' else '' }}" href="{{ url_for('main.index') }}">Home</a></li>
+        <li>
+          <a class="{{ 'active' if request.endpoint == 'main.index' else '' }}"
+             href="{{ url_for('main.index') }}">{{ t('nav_home', LANG) }}</a>
+        </li>
 
         {% if current_user.is_authenticated %}
-          <li><a class="{{ 'active' if request.blueprint == 'profile' else '' }}" href="{{ url_for('profile.page') }}">Profile</a></li>
+          <li>
+            <a class="{{ 'active' if request.blueprint == 'profile' else '' }}"
+               href="{{ url_for('profile.page') }}">{{ t('nav_profile', LANG) }}</a>
+          </li>
         {% endif %}
-        <li><a href="{{ url_for('translate.provider_card', lang=LANG) }}">Translate</a></li>
+
+        <li>
+          <a href="{{ url_for('translate.provider_card', lang=LANG) }}">{{ t('nav_translate', LANG) }}</a>
+        </li>
 
         {% if current_user.is_authenticated %}
-          <li><a href="{{ url_for('auth.logout') }}">Signout</a></li>
+          <li><a href="{{ url_for('auth.logout') }}">{{ t('nav_signout', LANG) }}</a></li>
         {% else %}
-          <li><a href="{{ url_for('auth.login_form') }}">Login</a></li>
-          <li><a href="{{ url_for('auth.register_form') }}">Register</a></li>
+          <li><a href="{{ url_for('auth.login_form') }}">{{ t('nav_login', LANG) }}</a></li>
+          <li><a href="{{ url_for('auth.register_form') }}">{{ t('nav_register', LANG) }}</a></li>
         {% endif %}
       </ul>
     </nav>
 
     <!-- Language Selector -->
     <form method="post" action="{{ url_for('set_lang') }}" class="lang-form">
-      <label for="lang">Language:</label>
+      <label for="lang">{{ t('language', LANG) }}:</label>
       <select name="lang" id="lang" onchange="this.form.submit()">
         <option value="en" {{ 'selected' if LANG == 'en' else '' }}>English</option>
         <option value="es" {{ 'selected' if LANG == 'es' else '' }}>Español</option>

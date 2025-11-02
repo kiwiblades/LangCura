@@ -1,14 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
 
-  <h1 class="page-title" style="margin-top:0;">Your Medical Profile</h1>
+  <h1 class="page-title" style="margin-top:0;">LANGCURA</h1>
 
   <!-- actions -->
   <div style="display:flex; gap:.5rem; margin:.5rem 0 1rem;">
-    <button id="editBtn" type="button" class="btn" style="width:auto;">Edit</button>
+    <button id="editBtn" type="button" class="btn" style="width:auto;">
+      {{ t('edit', LANG) }}
+    </button>
     <a class="btn btn--muted" style="width:auto;"
        href="{{ url_for('translate.provider_card', lang=LANG) }}">
-      Provider Card ({{ LANG|upper }})
+      {{ t('provider_card', LANG) }} ({{ LANG|upper }})
     </a>
   </div>
 
@@ -17,71 +19,84 @@
 
   <!-- edit form -->
   <form id="textForm" class="form-card" hidden>
-    <h2 class="form-title">Edit Details</h2>
+    <h2 class="form-title">{{ t('edit', LANG) }}</h2>
 
     <div class="form-row">
       <label class="form-label" for="userSymptoms">
-        Describe your symptoms
+        {{ t('symptoms_edit', LANG) }}
       </label>
       <textarea id="userSymptoms" name="userSymptoms" rows="4" class="textarea"
-                placeholder="List symptoms, one per line..."></textarea>
+                placeholder="{{ t('ph_symptoms', LANG) }}"></textarea>
     </div>
 
     <div class="form-row">
       <label class="form-label" for="userMedications">
-        List any medications
+        {{ t('medications_edit', LANG) }}
       </label>
       <textarea id="userMedications" name="userMedications" rows="4" class="textarea"
-                placeholder="Drug name, dose, frequency..."></textarea>
+                placeholder="{{ t('ph_meds', LANG) }}"></textarea>
     </div>
 
     <div class="form-row">
       <label class="form-label" for="userConditions">
-        Existing medical conditions
+        {{ t('conditions_edit', LANG) }}
       </label>
       <textarea id="userConditions" name="userConditions" rows="4" class="textarea"
-                placeholder="Diabetes, asthma, etc."></textarea>
+                placeholder="{{ t('ph_conditions', LANG) }}"></textarea>
     </div>
 
     <div class="form-row">
       <label class="form-label" for="userAllergies">
-        Allergies (medications/foods)
+        {{ t('allergies_edit', LANG) }}
       </label>
       <textarea id="userAllergies" name="userAllergies" rows="3" class="textarea"
-                placeholder="Penicillin, peanuts, etc."></textarea>
+                placeholder="{{ t('ph_allergies', LANG) }}"></textarea>
     </div>
 
     <div class="form-row">
       <label class="form-label" for="userSurgeries">
-        Past surgeries / procedures
+        {{ t('surgeries_edit', LANG) }}
       </label>
       <textarea id="userSurgeries" name="userSurgeries" rows="3" class="textarea"
-                placeholder="Appendectomy (2019), ..."></textarea>
+                placeholder="{{ t('ph_surgeries', LANG) }}"></textarea>
     </div>
 
     <div class="form-row">
       <label class="form-label" for="userVaccines">
-        Vaccinations
+        {{ t('vaccines_edit', LANG) }}
       </label>
       <textarea id="userVaccines" name="userVaccines" rows="3" class="textarea"
-                placeholder="COVID-19 (2023 booster), Tdap (2022), ..."></textarea>
+                placeholder="{{ t('ph_vaccines', LANG) }}"></textarea>
     </div>
 
     <div class="form-row">
       <label class="form-label" for="userFHistory">
-        Family medical history
+        {{ t('family_edit', LANG) }}
       </label>
       <textarea id="userFHistory" name="userFHistory" rows="3" class="textarea"
-                placeholder="Parent: hypertension; sibling: asthma; ..."></textarea>
+                placeholder="{{ t('ph_family', LANG) }}"></textarea>
     </div>
 
     <div class="btn-row">
-      <button type="submit" class="btn">Save</button>
-      <button id="cancelBtn" type="button" class="btn btn--muted">Cancel</button>
+      <button type="submit" class="btn">{{ t('submit', LANG) }}</button>
+      <button id="cancelBtn" type="button" class="btn btn--muted">{{ t('cancel', LANG) }}</button>
     </div>    
   </form>
 
   <script>
+    // Localized strings
+    const L = {
+    patient_info: `{{ t('profile_title', LANG) }}`,
+    symptoms:     `{{ t('symptoms', LANG) }}`,
+    medications:  `{{ t('medications', LANG) }}`,
+    conditions:   `{{ t('conditions', LANG) }}`,
+    allergies:    `{{ t('allergies', LANG) }}`,
+    surgeries:    `{{ t('surgeries', LANG) }}`,
+    vaccines:     `{{ t('vaccines', LANG) }}`,
+    family:       `{{ t('family_history', LANG) }}`,
+    none:         `{{ t('none', LANG) }}`,
+    save_error:   `{{ t('save_error', LANG) }}`
+  };
     let lastProfile = null;
     const form = document.getElementById('textForm');
     const output = document.getElementById('output');
@@ -96,7 +111,7 @@
     function createListFromText(text) {
       const lines = String(text||"").split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
       const ul = document.createElement('ul');
-      (lines.length ? lines : ['(none)']).forEach(t => {
+      (lines.length ? lines : [L.none]).forEach(t => {
         const li = document.createElement('li'); li.textContent = t; ul.appendChild(li);
       });
       return ul;
@@ -112,17 +127,17 @@
       card.className = 'form-card'; // reuse same look as form
       const h = document.createElement('h2');
       h.className = 'form-title';
-      h.textContent = 'Patient Info';
+      h.textContent = L.patient_info;
       card.appendChild(h);
 
       const sections = [
-        ['Symptoms', symptoms],
-        ['Medications', medications],
-        ['Conditions', conditions],
-        ['Allergies', allergies],
-        ['Surgeries', surgeries],
-        ['Vaccinations', vaccines],
-        ['Family History', family_history],
+        [L.symptoms, symptoms],
+        [L.medications, medications],
+        [L.conditions, conditions],
+        [L.allergies, allergies],
+        [L.surgeries, surgeries],
+        [L.vaccines, vaccines],
+        [L.family, family_history],
       ];
       sections.forEach(([label, value])=>{
         const sec = document.createElement('section'); sec.className = 'form-row';
@@ -182,7 +197,7 @@
         renderPatientInfo(newState);
         hide(form); show(output);
       } catch (err) {
-        alert('Error saving profile.');
+        alert(L.save_error);
       }
     });
 

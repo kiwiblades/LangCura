@@ -32,9 +32,9 @@ class Profile(db.Model):
     user = relationship("User", backref="profile")
     
     # medical info
-    conditions = db.Column(db.Text)
     symptoms = db.Column(db.Text)
     medications = db.Column(db.Text)
+    conditions = db.Column(db.Text)
     allergies = db.Column(db.Text)
     surgeries = db.Column(db.Text)
     vaccines = db.Column(db.Text)

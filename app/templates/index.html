@@ -2,37 +2,45 @@
 
 {% block content %}
   <section class="hero">
-    <h1 class="page-title" style="margin-bottom:.25rem;">Welcome to LINGCURA</h1>
-  <p class="welcome-text"><em>Clear, bilingual patient summaries for faster, safer care.</em></p>
-    <div class="cta-row">
-      {% if current_user.is_authenticated %}
-        <a class="btn" href="{{ url_for('profile.page') }}">Open your profile</a>
-        <a class="btn btn--muted" href="{{ url_for('translate.provider_card', lang=LANG) }}">View provider card ({{ LANG|upper }})</a>
-      {% else %}
-        <a class="btn" href="{{ url_for('auth.register_form') }}">Create account</a>
-        <a class="btn btn--muted" href="{{ url_for('auth.login_form') }}">Sign in</a>
-      {% endif %}
-    </div>
+    <h1 class="page-title" style="margin-bottom:.25rem;">{{ t('home_title', LANG) }}</h1>
+
+    {% if current_user.is_authenticated %}
+      <p class="welcome-text">
+        {{ t('home_signed_in_as', LANG) }} <strong>{{ current_user.email }}</strong>.
+      </p>
+      <div class="cta-row">
+        <a class="btn" href="{{ url_for('profile.page') }}">{{ t('nav_profile', LANG) }}</a>
+        <a class="btn btn--muted" href="{{ url_for('translate.provider_card', lang=LANG) }}">
+          {{ t('provider_card_lang', LANG) | replace('{lang}', LANG|upper) }}
+        </a>
+      </div>
+    {% else %}
+      <p class="welcome-text">{{ t('home_welcome', LANG) }}</p>
+      <div class="cta-row">
+        <a class="btn" href="{{ url_for('auth.register_form') }}">{{ t('nav_register', LANG) }}</a>
+        <a class="btn btn--muted" href="{{ url_for('auth.login_form') }}">{{ t('nav_login', LANG) }}</a>
+      </div>
+    {% endif %}
   </section>
 
   {% if current_user.is_authenticated %}
   <section class="tile-grid">
     <article class="tile">
-      <h3>Profile</h3>
-      <p>Keep symptoms, meds, and history up-to-date. Edit in your language; we'll handle the rest.</p>
-      <a class="nav-link" href="{{ url_for('profile.page') }}">Go to Profile →</a>
+      <h3>{{ t('card_profile_title', LANG) }}</h3>
+      <p>{{ t('card_profile_body', LANG) }}</p>
+      <a class="nav-link" href="{{ url_for('profile.page') }}">{{ t('card_profile_link', LANG) }} →</a>
     </article>
 
     <article class="tile">
-      <h3>Provider Card</h3>
-      <p>Generate a clean, printable summary for clinicians in {{ LANG|upper }} (switch languages on the top bar).</p>
-      <a class="nav-link" href="{{ url_for('translate.provider_card', lang=LANG) }}">Open Card →</a>
+      <h3>{{ t('card_card_title', LANG) }}</h3>
+      <p>{{ t('card_card_body', LANG) | replace('{LANG}', LANG|upper) }}</p>
+      <a class="nav-link" href="{{ url_for('translate.provider_card', lang=LANG) }}">{{ t('card_card_link', LANG) }} →</a>
     </article>
 
     <article class="tile">
-      <h3>Language</h3>
-      <p>Prefer English or Español? Use the selector above—your choice is saved for next time.</p>
-      <a class="nav-link" href="#lang">Change language ↑</a>
+      <h3>{{ t('card_lang_title', LANG) }}</h3>
+      <p>{{ t('card_lang_body', LANG) }}</p>
+      <a class="nav-link" href="#lang">{{ t('card_lang_link', LANG) }} ↑</a>
     </article>
   </section>
   {% endif %}

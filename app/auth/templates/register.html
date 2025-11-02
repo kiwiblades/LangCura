@@ -2,14 +2,14 @@
 
 {% block content %}
   <div class="form-card">
-    <h2 class="form-title">Create your account</h2>
+    <h2 class="form-title">{{ t('register_title', LANG) }}</h2>
 
     {# show any flashed errors from the backend #}
     {% with msgs = get_flashed_messages(category_filter=['error']) %}
       {% if msgs %}
         <ul class="flash-messages">
           {% for msg in msgs %}
-            <li><strong>Error:</strong> {{ msg }}</li>
+            <li><strong>{{ t('flash_error', LANG) or 'Error' }}:</strong> {{ msg }}</li>
           {% endfor %}
         </ul>
       {% endif %}
@@ -17,29 +17,17 @@
 
     <form method="post" action="{{ url_for('auth.register_submit') }}" novalidate>
       <div class="form-row">
-        <label class="form-label" for="email">Email</label>
-        <input class="input" id="email" name="email" type="email" placeholder="you@example.com" required>
+        <label class="form-label" for="email">{{ t('login_email', LANG) }}</label>
+        <input class="input" id="email" name="email" type="email" placeholder="{{ t('email_placeholder', LANG) }}" required>
       </div>
 
       <div class="form-row">
-        <label class="form-label" for="password">Password</label>
-        <input class="input" id="password" name="password" type="password" placeholder="••••••••" minlength="8" required>
+        <label class="form-label" for="password">{{ t('login_password', LANG) }}</label>
+        <input class="input" id="password" name="password" type="password" minlength="8" required>
       </div>
 
-      {# optional confirm field—uncomment if your route validates it #}
-      {#
-      <div class="form-row">
-        <label class="form-label" for="password2">Confirm password</label>
-        <input class="input" id="password2" name="password2" type="password" placeholder="Repeat password" required>
-      </div>
-      #}
-
-      <button class="btn" type="submit">Create account</button>
+      <button class="btn" type="submit">{{ t('register_submit', LANG) }}</button>
     </form>
 
-    <p class="auth-help" style="margin-top:.75rem;">
-      Already have an account?
-      <a href="{{ url_for('auth.login_form') }}" class="nav-link">Sign in</a>
-    </p>
   </div>
 {% endblock %}

@@ -42,22 +42,36 @@ def create_app():
 
     # check the user's language before rendering content
     @app.before_request
-    def set_lang():
+    def choose_lang():
+        arg_lang = (request.args.get("lang") or "").lower()
+        if arg_lang in ("en", "es"):
+            session["lang"] = arg_lang
+            g.lang = arg_lang
+            return
+
+        sess_lang = (session.get("lang") or "").lower()
+        if sess_lang in ("en", "es"):
+            g.lang = sess_lang
+            return
+
         if current_user.is_authenticated:
-            g.lang = (current_user.preferred_language or "en").lower()
-        else:
-            g.lang = (request.args.get("lang") or "en").lower()
+            g.lang = (getattr(current_user, "preferred_language", "en") or "en").lower()
+            return
+        
+        # default to english
+        g.lang = "en"
 
     # import language services
     from .services.i18n import t as _t
     @app.context_processor
     def inject_i18n():
-        from flask import g
-        lang = getattr(g, "lang", "en")
-        return {"t": lambda key: _t(key,lang), "LANG": lang}
+        return {
+            "t": _t,
+            "LANG": getattr(g, "lang", "en"),
+    }
+
 
     @app.post("/lang")
-    @login_required
     def set_lang():
         lang = (request.form.get("lang") or "en").lower()
         if lang not in ("en","es"):

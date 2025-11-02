@@ -41,8 +41,6 @@ class Profile(db.Model):
     vaccines = db.Column(db.Text)
     family_history = db.Column(db.Text)
 
-    # TODO: add all medical information fields
-
     # logging data
     created_at = db.Column(
         db.DateTime(timezone=True),
@@ -51,3 +49,21 @@ class Profile(db.Model):
 
     def __repr__(self):
         return f"<Profile {self.id} for User {self.uid}>"
+
+# translated medical records for patients, to prevent redundant translator usage
+class TranslationCache(db.Model):
+    __tablename__ = "translation_cache"
+
+    id = db.Column(db.Integer, primary_key=True)
+    uid = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False, unique=True)
+
+    # cache
+    checksum = db.Column(db.String(8), nullable=False, unique=True)
+    translated_json = db.Column(db.Text, nullable=False) # JSON string
+
+    # logging data
+    created_at = db.Column(
+        db.DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc)
+    )
+

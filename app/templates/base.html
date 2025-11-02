@@ -28,6 +28,38 @@
           <li><a href="{{ url_for('auth.register_form') }}">Register</a></li>
         {% endif %}
       </ul>
+
+<!--     <nav class="nav">
+        <div class="left">
+          <a class="brand" href="{{ url_for('main.index') }}">Lingcura</a>
+      
+          {% if current_user.is_authenticated %}
+            <a class="{{ 'active' if request.blueprint=='profile' else '' }}"
+               href="{{ url_for('profile.page') }}">Profile</a>
+          {% endif %}
+        </div>
+      
+        <div class="right">
+          <form method="post" action="{{ url_for('set_lang') }}" class="lang-form">
+            <select name="lang" onchange="this.form.submit()">
+              <option value="en" {{ 'selected' if LANG=='en' else '' }}>English</option>
+              <option value="es" {{ 'selected' if LANG=='es' else '' }}>Español</option>
+            </select>
+          </form>
+          <a href="{{ url_for('translate.provider_card', lang=LANG) }}" target="_blank">
+            Provider Card ({{ LANG|upper }})
+            </a>
+      
+          {% if current_user.is_authenticated %}
+            <form method="post" action="{{ url_for('auth.logout') }}" class="inline">
+              <button>Logout</button>
+            </form>
+          {% else %}
+            <a href="{{ url_for('auth.login_form') }}">Login</a>
+            <a href="{{ url_for('auth.register_form') }}">Register</a>
+          {% endif %}
+        </div> -->
+
     </nav>
 
     <!-- Language Selector -->

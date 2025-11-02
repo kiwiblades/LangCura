@@ -29,11 +29,13 @@ def create_app():
     from .routes import bp as main_bp
     from .auth import bp as auth_bp
     from .profile import bp as profile_bp
+    from .translate import bp as translate_bp
 
     # register blueprints (api endpoints)
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(profile_bp)
+    app.register_blueprint(translate_bp)
 
     with app.app_context():
         init_db()

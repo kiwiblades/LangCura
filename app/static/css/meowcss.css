@@ -50,15 +50,18 @@ body {
   margin: 0;
   font-family: "Zalando Sans SemiExpanded", sans-serif;
   color: #3B3B3B;
-  background: linear-gradient(to top, #fce4ec 0%, #fff0f5 40%, #e0f7fa 100%);
+  background: linear-gradient(to top, #ffeaf1 0%, #fff9fb 40%, #e5f9fc 100%);
 }
 
 /* Nav Bar */
 .main-nav {
-  border-top: 1px solid #ccc; /* mimic the gray line */
-  background-color: #fdfaf6; /* match your beige grid background */
-  padding: 0.5rem 1rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 2rem;
   font-family: 'Lexend', sans-serif;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f3e8f0; /* soft cherry edge */
 }
 
 .main-nav ul {
@@ -67,22 +70,26 @@ body {
   list-style: none;
   margin: 0;
   padding: 0;
+  align-items: center;
 }
 
 .main-nav a {
   text-decoration: none;
-  color: #7a1f1f; /* match LINGCURA red */
-  font-weight: 500;
+  color: #7a1f1f; /* LINGCURA red */
+  font-weight: 600;
   transition: color 0.2s ease;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
 }
 
 .main-nav a:hover {
   color: #dc2e2e;
+  background-color: rgba(244, 143, 177, 0.1); /* sakura pink tint */
 }
 
 /* Center band container */
 .center-band {
-  background-color: #fff0f5; /* soft cherry blossom pink */
+  background-color: #ffddf0; /* soft cherry blossom pink */
   max-width: 800px;
   width: 100%;
   margin: 2rem auto;
@@ -127,12 +134,14 @@ form button[type="submit"]:hover {
 /* Output area */
 #output {
   margin-top: 1rem;
-  padding: 0.75rem;
-  border: 1px solid #D8D8D8;
-  background: #F5F5F0;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border: 1px solid #f3e8f0;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   min-height: 2rem;
-  border-radius: 16px;
 }
+
 
 /* Patient info output styles */
 .patient-title {

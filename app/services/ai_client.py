@@ -1,4 +1,4 @@
-import os, json
+import os, json, time, hashlib
 from typing import Tuple, Any, Dict
 from openai import OpenAI
 
@@ -6,6 +6,12 @@ FIELDS = [
     "symptoms", "medications", "conditions",
     "allergies", "surgeries", "vaccines", "family_history"
 ]
+
+# in memory cache
+CACHE: dict[tuple[int, str, str], tuple[float, dict]] = {}
+CACHE_SECS = 60 * 60 # 1 hour
+
+
 
 def get_client():
     key = os.getenv("OPENROUTER_KEY")
@@ -53,4 +59,13 @@ def translate_profile(profile: Dict[str, Any],
         return True, out
     except Exception as json_mode_err:
         json_error = str(json_mode_err)
+
+# def translate_cache(
+#         uid: int,
+#         profile: Dict[str, Any],
+#         target_lang: str = "es",
+#         source_lang: str = "auto"
+# ) -> Tuple[bool, Dict[str,str] | str]:
+#     # in-memory cache for profile translations
+    
 

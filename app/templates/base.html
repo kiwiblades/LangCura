@@ -19,7 +19,7 @@
         {% if current_user.is_authenticated %}
           <li><a class="{{ 'active' if request.blueprint=='profile' else '' }}" href="{{ url_for('profile.page') }}">Profile</a></li>
         {% endif %}
-        <li><a href="#translate">Translate</a></li>
+        <li><a href="{{ url_for('translate.provider_card', lang=LANG) }}">Translate</a></li>
         <li><a href="#contact">Contact</a></li>
         {% if current_user.is_authenticated %}
           <li><a href="{{ url_for('auth.logout') }}">Signout</a></li>

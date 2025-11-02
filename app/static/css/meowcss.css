@@ -92,10 +92,6 @@ body {
   min-height: calc(100vh - 4rem); /* accounts for top/bottom margin */
 }
 
-
-}
-
-
 /* Form spacing */
 form textarea {
   display: block;

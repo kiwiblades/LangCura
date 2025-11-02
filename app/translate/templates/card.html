@@ -1,6 +1,6 @@
-<!doctype html>
-<html>
-<head>
+{% extends "base.html" %}
+{% block content %}
+
   <meta charset="utf-8">
   <title>Langcura — Provider Card ({{ lang|upper }})</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/meowcss.css') }}">
@@ -39,15 +39,6 @@
       padding: .6rem;
       border: 1px solid #eee;
       border-radius: 8px;
-    }
-
-    .no-print { margin-bottom: 1rem; }
-    .btn {
-      padding: .35rem .6rem;
-      border: 1px solid #68ff04;
-      border-radius: 16px;
-      text-decoration: none;
-      color: #333;
     }
 
     @media print {
@@ -91,4 +82,4 @@
     {% endfor %}
   </div>
 </body>
-</html>
+{% endblock %}
